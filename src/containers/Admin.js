@@ -1,59 +1,57 @@
 import React, { Component } from "react";
 import Table from "../components/elements/Table";
 import AdminSidebar from "../components/sidebars/AdminSidebar";
-
-const theaders = [
-  "Dərsin kodu",
-  "Dersin adi",
-  "Sinif",
-  "Muellimenin adi",
-  "Muellimenin soyadi",
-];
-const data1 = [
-  {
-    code: 1,
-    lessonName: "Riyaziyyat",
-    class: "5",
-    teacherName: "Gulnar",
-    teacherSurname: "Sahbazli",
-  },
-];
-
-const data2 = [
-  {
-    code: 1,
-    lessonName: "Riyaziyyat",
-    class: "5",
-    teacherName: "Ali",
-    teacherSurname: "Azizli",
-  },
-];
+import * as headers from "../helper/headers";
+import axios from "../helper/axios";
+import * as notification from "../helper/notification";
+import { sweetConfirm } from "../helper/sweet";
 
 class Admin extends Component {
   state = {
-    tabId: "v-pills-home",
+    tabId: "v-pills-type",
+    headers: {},
+    data: [],
   };
 
-  changeTab = (tabId) => {
-    this.setState({ tabId });
-  };
-
-  renderTab = () => {
-    const { tabId } = this.state;
+  getData = async (tabId = "v-pills-type") => {
+    let columns, result;
     switch (tabId) {
-      case "v-pills-home":
-        return <Table headers={theaders} data={data1} />;
+      case "v-pills-type":
+        columns = headers.tag;
+        result = await axios.get("/type/data");
+        break;
       case "v-pills-user":
-        return <Table headers={theaders} data={data2} />;
+        columns = headers.user;
+        result = await axios.get("/user/data");
+        break;
+      default:
+        columns = headers.tag;
+        result = await axios.get("/type/data");
+        break;
     }
+    await this.setState({ tabId, headers: columns, data: result.data });
   };
+
+  deleteItem = (data) => {
+    const { tabId } = this.state;
+    const tab = tabId.split("-")[2];
+    sweetConfirm(async () => {
+      await axios.post(`/${tab}/CRUD`, { ...data, control: 3 });
+      this.getData(tabId);
+      notification.success("Məlumat müvəffəqiyyətlə silindi.");
+    });
+  };
+
+  componentDidMount() {
+    this.getData();
+  }
 
   render() {
-    const { tabId } = this.state;
+    const { tabId, headers, data } = this.state;
     return (
       <div className="container-fluid admin-container">
         <div className="row h-100">
-          <AdminSidebar changeTab={this.changeTab} />
+          <AdminSidebar getData={this.getData} />
           <div className="col-sm-10">
             <div className="tab-content text-center mt-5 pt-5">
               <div
@@ -61,7 +59,7 @@ class Admin extends Component {
                 id={tabId}
                 role="tabpanel"
               >
-                {this.renderTab()}
+                <Table headers={headers} data={data} delete={this.deleteItem} />
               </div>
             </div>
           </div>
