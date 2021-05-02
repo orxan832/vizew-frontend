@@ -1,0 +1,71 @@
+.error-icon-position {
+  position: absolute;
+  z-index: 3;
+  top: 7px;
+  right: 16px;
+}
+
+.bg-modal {
+  background-color: #222627;
+}
+
+.info-btn {
+  background-color: #4c99e0;
+  -webkit-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  min-width: 160px;
+  height: 50px;
+  color: #ffffff;
+  border-radius: 0;
+  padding: 0 30px;
+  font-size: 16px;
+  line-height: 50px;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.info-btn:hover,
+.info-btn:focus {
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #205e7e;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.btn-w-45 {
+  width: 45% !important;
+}
+
+.address-p:hover {
+  color: #ac382e;
+}
+
+.base-a {
+  width: 354px;
+}
+
+@media screen and (max-width: 767px) {
+  .base-a {
+    width: 493px;
+  }
+}
+
+@media screen and (min-width: 767px) and (max-width: 991px) {
+  .base-a {
+    width: 271px;
+  }
+}
+
+.article-i-span:hover {
+  color: #db4437;
+  cursor: pointer;
+}
+
+.admin-container {
+  height: 100vh;
+  overflow: auto;
+}
