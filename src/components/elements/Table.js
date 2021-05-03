@@ -43,7 +43,7 @@ const Table = (props) => {
           <tr>
             {renderHeader()}
             <th className="align-middle">
-              <button className="btn btn-sm btn-primary">Yeni teq</button>
+              <button className="btn btn-sm btn-primary" onClick={props.insertOrUpdateHandler}>Yeni</button>
             </th>
           </tr>
         </thead>

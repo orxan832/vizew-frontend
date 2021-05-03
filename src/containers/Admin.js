@@ -5,15 +5,19 @@ import * as headers from "../helper/headers";
 import axios from "../helper/axios";
 import * as notification from "../helper/notification";
 import { sweetConfirm } from "../helper/sweet";
+import Modal from "../components/elements/Modal";
 
 class Admin extends Component {
   state = {
     tabId: "v-pills-type",
+    modalHeader: 'Teqlər',
     headers: {},
     data: [],
+    form: {},
+    modal: false
   };
 
-  getData = async (tabId = "v-pills-type") => {
+  getData = async (tabId = "v-pills-type", modalHeader = 'Teqlər') => {
     let columns, result;
     switch (tabId) {
       case "v-pills-type":
@@ -29,7 +33,7 @@ class Admin extends Component {
         result = await axios.get("/type/data");
         break;
     }
-    await this.setState({ tabId, headers: columns, data: result.data });
+    await this.setState({ tabId, modalHeader, headers: columns, data: result.data });
   };
 
   deleteItem = (data) => {
@@ -42,12 +46,21 @@ class Admin extends Component {
     });
   };
 
+  modalHandler = () => this.setState({ modal: !this.state.modal });
+
+  insertOrUpdateHandler = (form = false) => {
+    if (form) {
+      this.setState({ form });
+    }
+    this.modalHandler();
+  }
+
   componentDidMount() {
     this.getData();
   }
 
   render() {
-    const { tabId, headers, data } = this.state;
+    const { tabId, modalHeader, headers, data, form, modal } = this.state;
     return (
       <div className="container-fluid admin-container">
         <div className="row h-100">
@@ -59,7 +72,8 @@ class Admin extends Component {
                 id={tabId}
                 role="tabpanel"
               >
-                <Table headers={headers} data={data} delete={this.deleteItem} />
+                <Table headers={headers} data={data} delete={this.deleteItem} insertOrUpdateHandler={this.insertOrUpdateHandler} />
+                {modal && <Modal show={modal} hide={this.modalHandler} header={modalHeader} tabId={tabId} data={form} />}
               </div>
             </div>
           </div>

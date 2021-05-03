@@ -10,7 +10,7 @@ const AdminSidebar = (props) => {
       <div className="nav flex-column nav-pills mt-5 pt-5">
         <a
           className="nav-link active text-center"
-          onClick={() => props.getData("v-pills-home")}
+          onClick={() => props.getData("v-pills-home", 'Teqlər')}
           data-toggle="pill"
           href="#v-pills-home"
           role="tab"
@@ -20,7 +20,7 @@ const AdminSidebar = (props) => {
         </a>
         <a
           className="nav-link text-center mt-2"
-          onClick={() => props.getData("v-pills-user")}
+          onClick={() => props.getData("v-pills-user", 'Userlər')}
           data-toggle="pill"
           href="#v-pills-user"
           role="tab"
