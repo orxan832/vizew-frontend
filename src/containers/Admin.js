@@ -9,28 +9,28 @@ import Modal from "../components/elements/Modal";
 
 class Admin extends Component {
   state = {
-    tabId: "v-pills-type",
-    modalHeader: 'Teqlər',
+    tabId: "v-pills-ayah",
+    modalHeader: 'Ayətlər',
     headers: {},
     data: [],
-    form: {},
+    formData: { control: 1 },
     modal: false
   };
 
-  getData = async (tabId = "v-pills-type", modalHeader = 'Teqlər') => {
+  getData = async (tabId = this.state.tabId, modalHeader = this.state.modalHeader) => {
     let columns, result;
     switch (tabId) {
-      case "v-pills-type":
-        columns = headers.tag;
-        result = await axios.get("/type/data");
+      case "v-pills-ayah":
+        columns = headers.ayah;
+        result = await axios.get("/ayah/data");
         break;
-      case "v-pills-user":
-        columns = headers.user;
-        result = await axios.get("/user/data");
+      case "v-pills-type":
+        columns = headers.type;
+        result = await axios.get("/type/data");
         break;
       default:
-        columns = headers.tag;
-        result = await axios.get("/type/data");
+        columns = headers.ayah;
+        result = await axios.get("/ayah/data");
         break;
     }
     await this.setState({ tabId, modalHeader, headers: columns, data: result.data });
@@ -48,9 +48,9 @@ class Admin extends Component {
 
   modalHandler = () => this.setState({ modal: !this.state.modal });
 
-  insertOrUpdateHandler = (form = false) => {
+  insertOrUpdateHandler = async (form = false) => {
     if (form) {
-      this.setState({ form });
+      await this.setState({ formData: { ...form, control: 2 } });
     }
     this.modalHandler();
   }
@@ -60,7 +60,7 @@ class Admin extends Component {
   }
 
   render() {
-    const { tabId, modalHeader, headers, data, form, modal } = this.state;
+    const { tabId, modalHeader, headers, data, formData, modal } = this.state;
     return (
       <div className="container-fluid admin-container">
         <div className="row h-100">
@@ -73,7 +73,7 @@ class Admin extends Component {
                 role="tabpanel"
               >
                 <Table headers={headers} data={data} delete={this.deleteItem} insertOrUpdateHandler={this.insertOrUpdateHandler} />
-                {modal && <Modal show={modal} hide={this.modalHandler} header={modalHeader} tabId={tabId} data={form} />}
+                {modal && <Modal formData={formData} show={modal} refresh={this.getData} hide={this.modalHandler} header={modalHeader} tabId={tabId} />}
               </div>
             </div>
           </div>

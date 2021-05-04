@@ -1,17 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from '../../helper/axios';
+import * as notification from '../../helper/notification';
+import { sweetConfirm } from '../../helper/sweet';
 
 const Tag = props => {
-    console.log(props.data);
+
+    const [formData, setFormData] = useState(props.formData);
+
+    const changeHandler = e => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
+
+    const onSubmit = e => {
+        e.preventDefault();
+        const tab = props.tabId.split("-")[2];
+        sweetConfirm(async () => {
+            await axios.post(`/${tab}/CRUD`, { ...formData });
+            props.refresh();
+            props.hide();
+            notification.success("Məlumat müvəffəqiyyətlə əlavə olundu.");
+        });
+    }
+
     return (
-        <form onSubmit={props.onSubmit}>
+        <form onSubmit={onSubmit}>
             <div className="form-group">
-                <label htmlFor="title">Teq</label>
                 <input
                     type="text"
                     className="form-control bg-outline-white"
                     name="type"
-                    value={props.data?.type}
-                    onChange={props.onChange} />
+                    placeholder="Teq"
+                    value={formData.type || ''}
+                    onChange={changeHandler} />
             </div>
             <button type="submit" className="btn btn-success float-right">Yadda Saxla</button>
         </form>

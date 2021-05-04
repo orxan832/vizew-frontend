@@ -1,5 +1,5 @@
 import React from "react";
-import { FaTags } from "react-icons/fa";
+import { FaBook, FaTags } from "react-icons/fa";
 
 const AdminSidebar = (props) => {
   return (
@@ -10,23 +10,23 @@ const AdminSidebar = (props) => {
       <div className="nav flex-column nav-pills mt-5 pt-5">
         <a
           className="nav-link active text-center"
-          onClick={() => props.getData("v-pills-home", 'Teqlər')}
+          onClick={() => props.getData("v-pills-ayah", 'Ayətlər')}
           data-toggle="pill"
-          href="#v-pills-home"
+          href="#v-pills-ayah"
+          role="tab"
+        >
+          <FaBook size="1.5rem" className="pr-2" />
+          Ayətlər
+        </a>
+        <a
+          className="nav-link text-center mt-2"
+          onClick={() => props.getData("v-pills-type", 'Teqlər')}
+          data-toggle="pill"
+          href="#v-pills-type"
           role="tab"
         >
           <FaTags size="1.5rem" className="pr-2" />
           Teqlər
-        </a>
-        <a
-          className="nav-link text-center mt-2"
-          onClick={() => props.getData("v-pills-user", 'Userlər')}
-          data-toggle="pill"
-          href="#v-pills-user"
-          role="tab"
-        >
-          <FaTags size="1.5rem" className="pr-2" />
-          Userler
         </a>
       </div>
     </div>

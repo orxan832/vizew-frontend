@@ -1,16 +1,15 @@
 import React from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
+import Ayah from '../forms/ayah';
 import Tag from '../forms/tag';
-import User from '../forms/user';
 
 const AdminModal = props => {
-    console.log(props);
     const renderBody = () => {
         switch (props.tabId) {
+            case 'v-pills-ayah':
+                return <Ayah {...props} />;
             case 'v-pills-type':
-                return <Tag data={props.data} />;
-            case 'v-pills-user':
-                return <User data={props.data} />;
+                return <Tag {...props} />;
             default:
                 break;
         }
@@ -21,6 +20,8 @@ const AdminModal = props => {
             centered
             show={props.show}
             onHide={props.hide}
+            backdrop="static"
+            keyboard={false}
         >
             <Modal.Header closeButton>
                 <Modal.Title className='text-dark'>
@@ -28,11 +29,8 @@ const AdminModal = props => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <Tag data={props.data} />
+                {renderBody()}
             </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={props.onHide}>Close</Button>
-            </Modal.Footer>
         </Modal>
     )
 }

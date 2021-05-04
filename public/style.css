@@ -2514,7 +2514,7 @@ input:focus {
   }
 }
 
-.form-control {
+.vizew.form-control {
   position: relative;
   z-index: 2;
   height: 48px;
@@ -2530,7 +2530,7 @@ input:focus {
   border: none;
   border-radius: 0;
 }
-.form-control:focus {
+.vizew.form-control:focus {
   box-shadow: none;
   background-color: #393c3d;
 }

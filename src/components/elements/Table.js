@@ -17,12 +17,13 @@ const Table = (props) => {
     return data.map((d, i) => {
       return (
         <tr key={i}>
+          <td className="align-middle">{i + 1}</td>
           {Object.keys(headers).map((h, i) => (
             <td key={i}>{d[h]}</td>
           ))}
           <td className="align-middle">
             <button className="btn btn-sm btn-success mr-1">
-              <GrUpdate />
+              <GrUpdate onClick={() => props.insertOrUpdateHandler(d)} />
             </button>
             <button
               className="btn btn-sm btn-danger ml-1"
@@ -38,12 +39,13 @@ const Table = (props) => {
 
   return (
     <div className="table-responsive">
-      <table className="table table-dark table-striped">
+      <table className="table table-dark table-striped text-center table-sm">
         <thead>
           <tr>
+            <th className='align-middle' style={{ minWidth: '100px' }}>#</th>
             {renderHeader()}
-            <th className="align-middle">
-              <button className="btn btn-sm btn-primary" onClick={props.insertOrUpdateHandler}>Yeni</button>
+            <th className="align-middle" style={{ minWidth: '100px' }}>
+              <button className="btn btn-sm btn-primary" onClick={() => props.insertOrUpdateHandler()}>Yeni</button>
             </th>
           </tr>
         </thead>
