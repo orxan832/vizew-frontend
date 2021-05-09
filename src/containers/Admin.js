@@ -1,86 +1,81 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Table from "../components/elements/Table";
 import AdminSidebar from "../components/sidebars/AdminSidebar";
-import * as headers from "../helper/headers";
+import * as theaders from "../helper/headers";
 import axios from "../helper/axios";
 import * as notification from "../helper/notification";
 import { sweetConfirm } from "../helper/sweet";
 import Modal from "../components/elements/Modal";
 
-class Admin extends Component {
-  state = {
-    tabId: "v-pills-ayah",
-    modalHeader: 'Ayətlər',
-    headers: {},
-    data: [],
-    formData: { control: 1 },
-    modal: false
-  };
+const Admin = () => {
+  const [tabId, setTabId] = useState('');
+  const [modalHeader, setModalHeader] = useState('');
+  const [headers, setHeaders] = useState({});
+  const [data, setData] = useState([]);
+  const [form, setForm] = useState({ control: 1 });
+  const [modal, setModal] = useState(false);
+  const [tags, setTags] = useState([]);
 
-  getData = async (tabId = this.state.tabId, modalHeader = this.state.modalHeader) => {
-    let columns, result;
-    switch (tabId) {
-      case "v-pills-ayah":
-        columns = headers.ayah;
-        result = await axios.get("/ayah/data");
-        break;
-      case "v-pills-type":
-        columns = headers.type;
-        result = await axios.get("/type/data");
-        break;
-      default:
-        columns = headers.ayah;
-        result = await axios.get("/ayah/data");
-        break;
+  const getData = async (tabId = 'v-pills-ayah', modalHeader = 'Ayətlər') => {
+    const tab = tabId.split("-")[2];
+    const result = await axios.get(`/${tab}/data`);
+    if (tab !== 'tag') {
+      const tags = await axios.get('/tag/data');
+      setTags(tags.data);
     }
-    await this.setState({ tabId, modalHeader, headers: columns, data: result.data });
+    const columns = theaders[tab];
+    setTabId(tabId);
+    modalHeader && setModalHeader(modalHeader);
+    setHeaders(columns);
+    setData(result.data);
   };
 
-  deleteItem = (data) => {
-    const { tabId } = this.state;
+  const deleteItem = data => {
     const tab = tabId.split("-")[2];
     sweetConfirm(async () => {
       await axios.post(`/${tab}/CRUD`, { ...data, control: 3 });
-      this.getData(tabId);
+      getData(tabId);
       notification.success("Məlumat müvəffəqiyyətlə silindi.");
     });
   };
 
-  modalHandler = () => this.setState({ modal: !this.state.modal });
+  const modalHandler = () => setModal(!modal);
 
-  insertOrUpdateHandler = async (form = false) => {
+  const insertOrUpdateHandler = async (form = false) => {
     if (form) {
-      await this.setState({ formData: { ...form, control: 2 } });
+      setForm({ ...form, control: 2 });
+    } else {
+      setForm({ control: 1 });
     }
-    this.modalHandler();
+    modalHandler();
   }
 
-  componentDidMount() {
-    this.getData();
-  }
+  useEffect(() => {
+    getData();
+  }, [])
 
-  render() {
-    const { tabId, modalHeader, headers, data, formData, modal } = this.state;
-    return (
-      <div className="container-fluid admin-container">
-        <div className="row h-100">
-          <AdminSidebar getData={this.getData} />
-          <div className="col-sm-10">
-            <div className="tab-content text-center mt-5 pt-5">
-              <div
-                className="tab-pane fade show active"
-                id={tabId}
-                role="tabpanel"
-              >
-                <Table headers={headers} data={data} delete={this.deleteItem} insertOrUpdateHandler={this.insertOrUpdateHandler} />
-                {modal && <Modal formData={formData} show={modal} refresh={this.getData} hide={this.modalHandler} header={modalHeader} tabId={tabId} />}
-              </div>
+  const tableProps = { headers, data, tags, insertOrUpdateHandler, deleteItem, };
+  const modalProps = { headers, form, tags, modal, modalHeader, tabId, getData, modalHandler }
+
+  return (
+    <div className="container-fluid admin-container">
+      <div className="row h-100">
+        <AdminSidebar getData={getData} />
+        <div className="col-sm-10">
+          <div className="tab-content text-center mt-5 pt-5">
+            <div
+              className="tab-pane fade show active"
+              id={tabId}
+              role="tabpanel"
+            >
+              <Table {...tableProps} />
+              <Modal {...modalProps} />
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 export default Admin;

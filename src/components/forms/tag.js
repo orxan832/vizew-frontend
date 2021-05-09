@@ -5,21 +5,26 @@ import { sweetConfirm } from '../../helper/sweet';
 
 const Tag = props => {
 
-    const [formData, setFormData] = useState(props.formData);
+    const [form, setForm] = useState(props.form);
 
     const changeHandler = e => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setForm({ ...form, [e.target.name]: e.target.value });
     }
 
     const onSubmit = e => {
         e.preventDefault();
-        const tab = props.tabId.split("-")[2];
-        sweetConfirm(async () => {
-            await axios.post(`/${tab}/CRUD`, { ...formData });
-            props.refresh();
-            props.hide();
-            notification.success("Məlumat müvəffəqiyyətlə əlavə olundu.");
-        });
+        const { tabId, modalHeader, getData, modalHandler } = props;
+        if (form.tag !== undefined && form.tag !== '') {
+            const tab = tabId.split("-")[2];
+            sweetConfirm(async () => {
+                await axios.post(`/${tab}/CRUD`, { ...form });
+                getData(tabId, modalHeader)
+                modalHandler();
+                notification.success(`Məlumat müvəffəqiyyətlə ${form.control === 1 ? 'əlavə olundu' : 'dəyişdirildi'}.`);
+            });
+        } else {
+            notification.error('Xanaları tam şəkildə doldurun!');
+        }
     }
 
     return (
@@ -28,9 +33,9 @@ const Tag = props => {
                 <input
                     type="text"
                     className="form-control bg-outline-white"
-                    name="type"
+                    name="tag"
                     placeholder="Teq"
-                    value={formData.type || ''}
+                    value={form.tag || ''}
                     onChange={changeHandler} />
             </div>
             <button type="submit" className="btn btn-success float-right">Yadda Saxla</button>

@@ -5,8 +5,8 @@ import * as notification from '../../helper/notification';
 import { sweetConfirm } from '../../helper/sweet';
 import Select from '../elements/Select';
 
-const Ayah = props => {
-    console.log(props);
+const Hadith = props => {
+
     const [form, setForm] = useState(props.form);
     const [tagSelect, setTagSelect] = useState([]);
     const [tagOptions, setTagOptions] = useState([]);
@@ -41,9 +41,9 @@ const Ayah = props => {
         tagOptions.map(option => tagsArray.push(option.value));
         const tags = tagsArray.toString();
         form.tags = tags;
-        const tab = tabId.split("-")[2];
         const access = validation(form, headers);
         if (access) {
+            const tab = tabId.split("-")[2];
             sweetConfirm(async () => {
                 await axios.post(`/${tab}/CRUD`, { ...form });
                 getData(tabId, modalHeader);
@@ -65,9 +65,9 @@ const Ayah = props => {
                 <textarea
                     rows='4'
                     className="form-control"
-                    name='ayah'
-                    placeholder='Ayət'
-                    value={form.ayah || ''}
+                    name='hadith'
+                    placeholder='Hədis'
+                    value={form.hadith || ''}
                     onChange={changeHandler} />
             </div>
             <div className="form-group">
@@ -89,4 +89,4 @@ const Ayah = props => {
     )
 }
 
-export default Ayah;
+export default Hadith;

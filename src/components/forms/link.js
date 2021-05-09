@@ -5,8 +5,8 @@ import * as notification from '../../helper/notification';
 import { sweetConfirm } from '../../helper/sweet';
 import Select from '../elements/Select';
 
-const Ayah = props => {
-    console.log(props);
+const Link = props => {
+
     const [form, setForm] = useState(props.form);
     const [tagSelect, setTagSelect] = useState([]);
     const [tagOptions, setTagOptions] = useState([]);
@@ -46,7 +46,7 @@ const Ayah = props => {
         if (access) {
             sweetConfirm(async () => {
                 await axios.post(`/${tab}/CRUD`, { ...form });
-                getData(tabId, modalHeader);
+                getData(tabId, modalHeader)
                 modalHandler();
                 notification.success(`Məlumat müvəffəqiyyətlə ${form.control === 1 ? 'əlavə olundu' : 'dəyişdirildi'}.`);
             });
@@ -62,21 +62,21 @@ const Ayah = props => {
     return (
         <form onSubmit={onSubmit}>
             <div className="form-group">
-                <textarea
-                    rows='4'
+                <input
+                    type="text"
                     className="form-control"
-                    name='ayah'
-                    placeholder='Ayət'
-                    value={form.ayah || ''}
+                    name='format'
+                    placeholder='Format'
+                    value={form.format || ''}
                     onChange={changeHandler} />
             </div>
             <div className="form-group">
                 <input
                     type="text"
                     className="form-control"
-                    name='source'
-                    placeholder='Mənbə'
-                    value={form.source || ''}
+                    name='link'
+                    placeholder='Keçid'
+                    value={form.link || ''}
                     onChange={changeHandler} />
             </div>
             <Select
@@ -89,4 +89,4 @@ const Ayah = props => {
     )
 }
 
-export default Ayah;
+export default Link;

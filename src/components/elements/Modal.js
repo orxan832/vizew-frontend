@@ -1,35 +1,37 @@
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import Ayah from '../forms/ayah';
+import Hadith from '../forms/hadith';
+import Article from '../forms/article';
+import Link from '../forms/link';
 import Tag from '../forms/tag';
 
 const AdminModal = props => {
-    const renderBody = () => {
-        switch (props.tabId) {
-            case 'v-pills-ayah':
-                return <Ayah {...props} />;
-            case 'v-pills-type':
-                return <Tag {...props} />;
-            default:
-                break;
-        }
-    }
+
+    const elements = {
+        ayah: <Ayah {...props} />,
+        hadith: <Hadith {...props} />,
+        article: <Article {...props} />,
+        link: <Link {...props} />,
+        tag: <Tag {...props} />
+    };
+    const { tabId, modal, modalHeader, modalHandler } = props;
     return (
         <Modal
-            size="lg"
+            size={`${tabId === 'v-pills-article' ? 'xl' : 'lg'}`}
             centered
-            show={props.show}
-            onHide={props.hide}
+            show={modal}
+            onHide={modalHandler}
             backdrop="static"
             keyboard={false}
         >
             <Modal.Header closeButton>
                 <Modal.Title className='text-dark'>
-                    {props.header}
+                    {modalHeader}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                {renderBody()}
+                {elements[tabId.split('-')[2]]}
             </Modal.Body>
         </Modal>
     )
