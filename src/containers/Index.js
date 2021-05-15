@@ -21,7 +21,7 @@ class Index extends Component {
   }
 
   getData = async () => {
-    const getBase = axios.get(`/article/baseArticles`);
+    const getBase = axios.get(`/article/data`);
     const [base] = await Promise.all([getBase]);
     this.setState({
       base: base.data,

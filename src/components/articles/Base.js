@@ -14,7 +14,7 @@ const Base = (props) => {
           <div className="col-12 col-md-7 col-lg-8">
             <div className="tab-content">
               {props.data.map((d, i) => {
-                const buttons = d.types.split(",");
+                const buttons = d.tags.split(",");
                 return (
                   <div
                     className={`tab-pane fade ${i === 0 && "show active"}`}

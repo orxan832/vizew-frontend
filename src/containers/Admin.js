@@ -8,29 +8,28 @@ import { sweetConfirm } from "../helper/sweet";
 import Modal from "../components/elements/Modal";
 
 const Admin = () => {
-  const [tabId, setTabId] = useState('');
-  const [modalHeader, setModalHeader] = useState('');
+  const [tabId, setTabId] = useState("");
+  const [modalHeader, setModalHeader] = useState("");
   const [headers, setHeaders] = useState({});
   const [data, setData] = useState([]);
   const [form, setForm] = useState({ control: 1 });
   const [modal, setModal] = useState(false);
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState(false);
 
-  const getData = async (tabId = 'v-pills-ayah', modalHeader = 'Ayətlər') => {
+  const getData = async (tabId = "v-pills-ayah", modalHeader = "Ayətlər") => {
     const tab = tabId.split("-")[2];
-    const result = await axios.get(`/${tab}/data`);
-    if (tab !== 'tag') {
-      const tags = await axios.get('/tag/data');
-      setTags(tags.data);
-    }
+    const get_result = axios.get(`/${tab}/data`);
+    const get_tags = axios.get("/tag/data");
+    const [result, tags] = await Promise.all([get_result, get_tags]);
     const columns = theaders[tab];
     setTabId(tabId);
     modalHeader && setModalHeader(modalHeader);
     setHeaders(columns);
     setData(result.data);
+    setTags(tags.data);
   };
 
-  const deleteItem = data => {
+  const deleteItem = (data) => {
     const tab = tabId.split("-")[2];
     sweetConfirm(async () => {
       await axios.post(`/${tab}/CRUD`, { ...data, control: 3 });
@@ -48,14 +47,32 @@ const Admin = () => {
       setForm({ control: 1 });
     }
     modalHandler();
-  }
+  };
 
   useEffect(() => {
     getData();
-  }, [])
+  }, []);
 
-  const tableProps = { headers, data, tags, insertOrUpdateHandler, deleteItem, };
-  const modalProps = { headers, form, tags, modal, modalHeader, tabId, getData, modalHandler }
+  const tableProps = {
+    headers,
+    data,
+    form,
+    tags,
+    modalHeader,
+    modalHandler,
+    insertOrUpdateHandler,
+    deleteItem,
+  };
+  const modalProps = {
+    headers,
+    form,
+    tags,
+    modal,
+    modalHeader,
+    tabId,
+    getData,
+    modalHandler,
+  };
 
   return (
     <div className="container-fluid admin-container">
@@ -76,6 +93,6 @@ const Admin = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Admin;

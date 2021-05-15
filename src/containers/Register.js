@@ -3,7 +3,7 @@ import axios from "../helper/axios";
 import { error } from "../helper/notification";
 import { sweetConfirm } from "../helper/sweet";
 import { connect } from "react-redux";
-import { register } from "../redux/actions/userActions";
+import { register } from "../redux/actions/user";
 import SendMail from "../components/UI/SendMail";
 import Overlay from "../components/UI/Overlay";
 import Input from "../components/elements/Input";

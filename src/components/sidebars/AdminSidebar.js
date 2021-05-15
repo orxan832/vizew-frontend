@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaBookOpen, FaTags, FaLink } from "react-icons/fa";
+import { FaBookOpen, FaTags, FaLink, FaUserAlt } from "react-icons/fa";
 import { ImBooks } from "react-icons/im";
 import { RiArticleFill } from "react-icons/ri";
 
@@ -23,6 +23,11 @@ const navs = [
     nav: 'v-pills-link',
     label: 'Keçidlər',
     icon: <FaLink size="1.5rem" className="pr-2" />
+  },
+  {
+    nav: 'v-pills-user',
+    label: 'İstifadəçilər',
+    icon: <FaUserAlt size="1.5rem" className="pr-2" />
   },
   {
     nav: 'v-pills-tag',
@@ -49,7 +54,7 @@ const AdminSidebar = props => {
         {navs.map((item, i) =>
           <a
             key={i}
-            className={`nav-link text-center ${item.nav === tab && 'active'}`}
+            className={`nav-link ${item.nav === tab && 'active'}`}
             onClick={() => clickHandler(item.nav, item.label)}
             data-toggle="pill"
             href={`#${item.nav}`}

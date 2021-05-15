@@ -4,6 +4,7 @@ import Ayah from '../forms/ayah';
 import Hadith from '../forms/hadith';
 import Article from '../forms/article';
 import Link from '../forms/link';
+import User from '../forms/user';
 import Tag from '../forms/tag';
 
 const AdminModal = props => {
@@ -13,6 +14,7 @@ const AdminModal = props => {
         hadith: <Hadith {...props} />,
         article: <Article {...props} />,
         link: <Link {...props} />,
+        user: <User {...props} />,
         tag: <Tag {...props} />
     };
     const { tabId, modal, modalHeader, modalHandler } = props;
