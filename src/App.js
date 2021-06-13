@@ -37,10 +37,10 @@ const App = () => {
           className="bg-dark rounded p-2 position-relative"
         />
       </ScrollToTop>
+      {user && user.role > 1 && <Redirect from="/admin" to="/" />}
       <Switch>
         <Route path="/admin" component={Admin} />
         <Route path="/" component={Main} />
-        {user && user.role > 1 && <Redirect from="/admin" to="/" />}
       </Switch>
     </Fragment>
   );

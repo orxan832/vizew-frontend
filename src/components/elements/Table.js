@@ -90,7 +90,7 @@ const Table = (props) => {
 
   return (
     <>
-      <div className="table-responsive" style={{ height: "800px" }}>
+      <div className="table-responsive px-3" style={{ height: "800px" }}>
         <table className="table table-sm table-dark table-striped table-bordered table-hover text-center">
           <thead>
             <tr>

@@ -78,8 +78,9 @@ const Admin = () => {
     <div className="container-fluid admin-container">
       <div className="row h-100">
         <AdminSidebar getData={getData} />
-        <div className="col-sm-10">
-          <div className="tab-content text-center mt-5 pt-5">
+        <div className="col-sm-10 px-0">
+          <div className='table-dark pt-5'></div>
+          <div className="tab-content text-center mt-5">
             <div
               className="tab-pane fade show active"
               id={tabId}

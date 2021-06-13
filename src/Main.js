@@ -15,13 +15,13 @@ const Main = () => {
   return (
     <Fragment>
       <Header />
+      {user && (
+        <Fragment>
+          <Redirect from="/login" to="/" />
+          <Redirect from="/register" to="/" />
+        </Fragment>
+      )}
       <Switch>
-        {user && (
-          <Fragment>
-            <Redirect from="/login" to="/" />
-            <Redirect from="/register" to="/" />
-          </Fragment>
-        )}
         <Route path="/login" component={Login} />
         <Route path="/register" component={Register} />
         <Route path="/single-article/:id" component={ArticleReader} />
