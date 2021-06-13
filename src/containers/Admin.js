@@ -6,6 +6,7 @@ import axios from "../helper/axios";
 import * as notification from "../helper/notification";
 import { sweetConfirm } from "../helper/sweet";
 import Modal from "../components/elements/Modal";
+import { FaHome } from "react-icons/fa";
 
 const Admin = () => {
   const [tabId, setTabId] = useState("");
@@ -79,7 +80,17 @@ const Admin = () => {
       <div className="row h-100">
         <AdminSidebar getData={getData} />
         <div className="col-sm-10 px-0">
-          <div className='table-dark pt-5'></div>
+          <div className="table-dark border-bottom border-secondary pt-3">
+            <div className='d-flex justify-content-end pb-1 mr-2'>
+            <a href='/' className="btn table-dark">
+              <FaHome
+                title="Ana səhifəyə dön"
+                className="text-light"
+                size="2rem"
+              />
+            </a>
+            </div>
+          </div>
           <div className="tab-content text-center mt-5">
             <div
               className="tab-pane fade show active"

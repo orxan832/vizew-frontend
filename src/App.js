@@ -25,6 +25,15 @@ const App = () => {
         dispatch(login(false));
         history.replace("/login");
       }
+    } else {
+      switch (history.location.pathname) {
+        case '/admin':
+          history.replace('/login');
+          break;
+      
+        default:
+          break;
+      }
     }
   }, []);
 
@@ -37,7 +46,6 @@ const App = () => {
           className="bg-dark rounded p-2 position-relative"
         />
       </ScrollToTop>
-      {user && user.role > 1 && <Redirect from="/admin" to="/" />}
       <Switch>
         <Route path="/admin" component={Admin} />
         <Route path="/" component={Main} />

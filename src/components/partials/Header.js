@@ -140,11 +140,11 @@ const Header = (props) => {
                       <ul className="dropdown">
                         {user ? (
                           <Fragment>
-                            {user.role === 1 && (
-                              <li>
-                                <Link to="/admin">ADMİN PANEL</Link>
-                              </li>
-                            )}
+                            {(user.role === 0 || user.role === 1) &&
+                                  <li>
+                                    <Link to="/admin">ADMİN PANEL</Link>
+                                  </li>
+                                }
                             <li>
                               <Link to="/register">ŞƏXSİ MƏLUMATLAR</Link>
                             </li>
