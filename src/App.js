@@ -30,7 +30,7 @@ const App = () => {
         case '/admin':
           history.replace('/login');
           break;
-      
+
         default:
           break;
       }

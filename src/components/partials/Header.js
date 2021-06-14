@@ -141,10 +141,10 @@ const Header = (props) => {
                         {user ? (
                           <Fragment>
                             {(user.role === 0 || user.role === 1) &&
-                                  <li>
-                                    <Link to="/admin">ADMİN PANEL</Link>
-                                  </li>
-                                }
+                              <li>
+                                <Link to="/admin">ADMİN PANEL</Link>
+                              </li>
+                            }
                             <li>
                               <Link to="/register">ŞƏXSİ MƏLUMATLAR</Link>
                             </li>

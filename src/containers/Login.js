@@ -1,7 +1,7 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { sweetInfo, sweetSuccess } from "../helper/sweet";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { sweetSuccess } from "../helper/sweet";
+import { useDispatch } from "react-redux";
 import { login } from "../redux/actions/user";
 import Input from "../components/elements/Input";
 import { Link } from "react-router-dom";
@@ -22,10 +22,8 @@ const inputs = [
   },
 ];
 
-const Login = (props) => {
+const Login = () => {
   const [form, setForm] = useState({});
-
-  const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -44,8 +42,7 @@ const Login = (props) => {
     ));
   };
 
-  const changeInputHandler = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
+  const changeInputHandler = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const submitHandler = async (e) => {
     try {
@@ -55,8 +52,8 @@ const Login = (props) => {
         const { token, message } = res.data;
         localStorage.setItem("token", token);
         setAuthToken(token);
-        const user = decoder(token);
-        dispatch(login(user));
+        const data = decoder(token);
+        dispatch(login(data));
         history.replace("/");
         sweetSuccess(message);
       } else {
@@ -66,12 +63,6 @@ const Login = (props) => {
       error("Xəta baş verdi: " + err);
     }
   };
-
-  useEffect(() => {
-    if (user) {
-      history.replace("/");
-    }
-  }, []);
 
   return (
     <div className="vizew-login-area section-padding-80">

@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { sweetInfo } from "../helper/sweet";
 import Base from "../components/articles/Base";
 import Trending from "../components/articles/Trending";
 import Featured from "../components/articles/Featured";
@@ -15,8 +14,6 @@ class Index extends Component {
   };
 
   async componentDidMount() {
-    const { message } = this.props;
-    message && sweetInfo(message);
     this.getData();
   }
 
