@@ -2545,4 +2545,9 @@ textarea.form-control {
   height: 140px;
 }
 
+.vizew-datatable td, th {
+  color: white;
+  margin-top: 10px;
+}
+
 /*# sourceMappingURL=style.css.map */

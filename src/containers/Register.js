@@ -1,11 +1,9 @@
-import React, { Component, useState } from "react";
+import React, { useState } from "react";
 import axios from "../helper/axios";
 import { error, info } from "../helper/notification";
-import { sweetConfirm, sweetInfo } from "../helper/sweet";
-import { connect, useDispatch } from "react-redux";
-import { register } from "../redux/actions/user";
+import { sweetInfo } from "../helper/sweet";
+import { useDispatch } from "react-redux";
 import SendMail from "../components/UI/SendMail";
-import Overlay from "../components/UI/Overlay";
 import Input from "../components/elements/Input";
 import { Link, useHistory } from "react-router-dom";
 
@@ -37,7 +35,6 @@ const Register = props => {
   const [modal, setModal] = useState(false);
   const [code, setCode] = useState('');
   const [userCode, setUserCode] = useState('');
-  const dispatch = useDispatch();
   const history = useHistory();
 
   const renderFormInputs = () => {

@@ -5,19 +5,11 @@ import { RiArticleFill } from "react-icons/ri";
 import { formatDateUntilSecond, setDataTags } from "../../helper/functions";
 import { roles } from "../../helper/enum";
 import Reader from "../modals/reader";
+import { MDBDataTable } from 'mdbreact';
 
 const Table = (props) => {
   const [modal, setModal] = useState(false);
   const [article, setArticle] = useState("");
-
-  const renderHeader = () => {
-    const { headers } = props;
-    return Object.values(headers).map((header, i) => (
-      <th className="align-middle" key={i} style={{ width: "10%" }}>
-        {header}
-      </th>
-    ));
-  };
 
   const returnData = (data, header) => {
     const { tags } = props;
@@ -54,74 +46,67 @@ const Table = (props) => {
     setModal(!modal);
   };
 
-  const renderData = () => {
+  const renderTableData = () => {
     const { headers, data, insertOrUpdateHandler, deleteItem } = props;
-    return data.map((d, i) => {
-      return (
-        <tr key={i}>
-          <td className="align-middle">{i + 1}</td>
-          {Object.keys(headers).map((h, i) => {
-            return (
-              <td className="align-middle" key={i}>
-                {returnData(d, h)}
-              </td>
-            );
-          })}
-          <td className="align-middle">
-            <button
-              className="btn btn-sm btn-success mr-1"
-              onClick={() => insertOrUpdateHandler(d)}
-            >
-              <GrUpdate />
-            </button>
-            <button
-              className="btn btn-sm btn-danger ml-1"
-              onClick={() => deleteItem(d)}
-            >
-              <AiOutlineDelete />
-            </button>
-          </td>
-        </tr>
-      );
+    const columns = Object.keys(headers).map(key => {
+      return {
+        label: headers[key],
+        field: key,
+        sort: 'asc',
+        // width: 
+      }
     });
-  };
-
-  const { insertOrUpdateHandler, headers, modalHeader, form } = props;
+    columns.unshift({
+      label: '#',
+      field: 'index',
+      sort: 'asc',
+    })
+    columns.push({
+      label: <button
+        className="btn btn-sm btn-primary"
+        onClick={() => insertOrUpdateHandler()}
+      >
+        Yeni
+      </button>,
+      field: 'buttons',
+      sort: 'asc'
+    })
+    const rows = data.map((d, i) => {
+      const row = {};
+      Object.keys(headers).map(key => {
+        row[key] = returnData(d, key);
+      });
+      row.buttons = <div className='d-flex justify-content-center'>
+        <button
+          className="btn btn-sm btn-success mr-1"
+          onClick={() => insertOrUpdateHandler(d)}
+        >
+          <GrUpdate />
+        </button>
+        <button
+          className="btn btn-sm btn-danger ml-1"
+          onClick={() => deleteItem(d)}
+        >
+          <AiOutlineDelete />
+        </button>
+      </div>;
+      return row;
+    });
+    return { columns, rows };
+  }
 
   return (
     <>
-      <div
-        className="table-responsive animated fadeIn px-3"
-        style={{ height: "800px" }}
-      >
-        <table className="table table-sm table-dark table-striped table-bordered table-hover text-center">
-          <thead>
-            <tr>
-              <th
-                colSpan={Object.keys(headers).length + 2}
-                className="align-middle"
-                style={{ height: "50px" }}
-              >
-                <h3>{modalHeader}</h3>
-              </th>
-            </tr>
-            <tr>
-              <th className="align-middle" style={{ width: "15%" }}>
-                #
-              </th>
-              {renderHeader()}
-              <th className="align-middle" style={{ width: "15%" }}>
-                <button
-                  className="btn btn-sm btn-primary"
-                  onClick={() => insertOrUpdateHandler()}
-                >
-                  Yeni
-                </button>
-              </th>
-            </tr>
-          </thead>
-          <tbody>{renderData()}</tbody>
-        </table>
+      <div className='vizew-datatable px-3'>
+        <MDBDataTable
+          dark striped
+          noBottomColumns
+          className='color-light'
+          searchLabel='Axtarış'
+          infoLabel={['Göstərilir', '-', 'Sətir sayı', '']}
+          paginationLabel={['Əvvəlki', 'Sonrakı']}
+          data={renderTableData()}
+          displayEntries={false} />
       </div>
       {modal && (
         <Reader

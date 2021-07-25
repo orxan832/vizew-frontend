@@ -13,6 +13,7 @@ import 'owl.carousel/dist/assets/owl.theme.default.css';
 import 'react-notifications-component/dist/theme.css';
 import './assets/css/project.css';
 import './assets/css/ckeditor.css';
+import './assets/css/dataTables.bootstrap4.min.css';
 
 //js files
 import './assets/js/classynav';
@@ -22,7 +23,7 @@ import './assets/js/active';
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-    <App />
+      <App />
     </Router>
   </Provider>, document.getElementById('root'));
 serviceWorker.unregister();
