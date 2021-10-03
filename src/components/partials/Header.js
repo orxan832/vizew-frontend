@@ -1,106 +1,36 @@
-import React, { Fragment } from "react";
-import OwlCarousel from "react-owl-carousel";
+import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../redux/actions/user";
-import { withRouter } from "react-router-dom";
 import { sweetConfirm } from "../../helper/sweet";
+import { useHistory } from 'react-router-dom';
 
-const Header = (props) => {
-  const user = useSelector((state) => state.user.user);
+const Header = () => {
+
+  const [activeHeader, setActiveHeader] = useState('index');
+
+  const { user } = useSelector(state => state.user);
+
   const dispatch = useDispatch();
-  const logoutUser = (e) => {
+  const history = useHistory();
+
+  const logoutUser = e => {
     e.preventDefault();
     sweetConfirm(() => {
       dispatch(logout());
-      props.history.replace("/login");
+      history.replace('/login');
     });
   };
+
+  const changeActiveHeaderHandler = name => setActiveHeader(name);
+
   return (
     <header className="header-area">
-      <div className="top-header-area">
-        <div className="container">
-          <div className="row align-items-center">
-            <div className="col-12 col-md-6">
-              <div className="breaking-news-area d-flex align-items-center">
-                <div className="news-title">
-                  <p>Breaking News:</p>
-                </div>
-                <div id="breakingNewsTicker" className="ticker">
-                  <OwlCarousel
-                    className="twitter-slides owl-carousel"
-                    loop
-                    autoplay
-                    autoplayTimeout={4000}
-                    smartSpeed={1000}
-                    autoplayHoverPause
-                    items={1}
-                    margin={0}
-                    dots={false}
-                  >
-                    <Link to="single-post.html">
-                      10 Things Amazon Echo Can Do
-                    </Link>
-                    <Link to="single-post.html">
-                      Welcome to Colorlib Family.
-                    </Link>
-                    <Link to="single-post.html">
-                      Boys 'doing well' after Thai
-                    </Link>
-                  </OwlCarousel>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-md-6">
-              <div className="top-meta-data d-flex align-items-center justify-content-end">
-                <div className="top-social-info">
-                  <Link to="#">
-                    <i className="fa fa-facebook"></i>
-                  </Link>
-                  <Link to="#">
-                    <i className="fa fa-twitter"></i>
-                  </Link>
-                  <Link to="#">
-                    <i className="fa fa-pinterest"></i>
-                  </Link>
-                  <Link to="#">
-                    <i className="fa fa-linkedin"></i>
-                  </Link>
-                  <Link to="#">
-                    <i className="fa fa-youtube-play"></i>
-                  </Link>
-                </div>
-                <div className="top-search-area">
-                  <form action="index.html" method="post">
-                    <input
-                      type="search"
-                      name="top-search"
-                      id="topSearch"
-                      placeholder="Search..."
-                    />
-                    <button type="submit" className="btn">
-                      <i className="fa fa-search" aria-hidden="true"></i>
-                    </button>
-                  </form>
-                </div>
-                <Link to="login.html" className="login-btn">
-                  <i className="fa fa-user" aria-hidden="true"></i>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div className="vizew-main-menu" id="sticker">
         <div className="classy-nav-container breakpoint-off">
           <div className="container">
-            <nav
-              className="classy-navbar justify-content-between"
-              id="vizewNav"
-            >
-              <Link to="/" className="nav-brand">
-                <img src="img/core-img/logo.png" alt="" />
-              </Link>
+            <nav className="classy-navbar justify-content-between" id="vizewNav">
+              <Link to="/" onClick={() => changeActiveHeaderHandler('index')}><h2 className='font-weight-bold mt-2'>Faydalı Məqalələr</h2></Link>
               <div className="classy-navbar-toggler">
                 <span className="navbarToggler">
                   <span></span>
@@ -117,57 +47,31 @@ const Header = (props) => {
                 </div>
                 <div className="classynav">
                   <ul>
-                    <li className="active">
-                      <Link to="/">ANA SƏHİFƏ</Link>
-                    </li>
-                    <li>
-                      <Link to="index.html">İSLAM</Link>
-                    </li>
-                    <li>
-                      <Link to="index.html">AYƏTLƏR</Link>
-                    </li>
-                    <li>
-                      <Link to="index.html">HƏDİSLƏR</Link>
-                    </li>
-                    <li>
-                      <Link to="index.html">KEÇİDLƏR</Link>
-                    </li>
-                    <li>
-                      <Link to="archive-list.html">AXTARIŞ</Link>
-                    </li>
-                    <li>
-                      <Link to="#">HESAB</Link>
+                    <li className={activeHeader === 'index' ? 'active' : undefined} onClick={() => changeActiveHeaderHandler('index')}><Link to="/">ANA SƏHİFƏ</Link></li>
+                    {/* <li className={activeHeader === 'islam' ? 'active' : undefined} onClick={() => changeActiveHeaderHandler('islam')}><Link to="/religion">İSLAM</Link></li> */}
+                    {/* <li className={activeHeader === 'ayahs' ? 'active' : undefined} onClick={() => changeActiveHeaderHandler('ayahs')}><Link to="/ayah">AYƏTLƏR</Link></li>
+                    <li className={activeHeader === 'hadiths' ? 'active' : undefined} onClick={() => changeActiveHeaderHandler('hadiths')}><Link to="/hadith">HƏDİSLƏR</Link></li> */}
+                    <li className={activeHeader === 'links' ? 'active' : undefined} onClick={() => changeActiveHeaderHandler('links')}><Link to="/link">KEÇİDLƏR</Link></li>
+                    <li className={activeHeader === 'search' ? 'active' : undefined} onClick={() => changeActiveHeaderHandler('search')}><Link to="/search">AXTARIŞ</Link></li>
+                    <li className={activeHeader === 'offer' ? 'active' : undefined} onClick={() => changeActiveHeaderHandler('offer')}><Link to="/offer">ŞİKAYƏT VƏ TƏKLİFLƏR</Link></li>
+                    <li onClick={() => changeActiveHeaderHandler('account')}>
+                      <Link to="#">{user ? user.full_name.split(' ')[0] : 'HESAB'}</Link>
                       <ul className="dropdown">
                         {user ? (
                           <Fragment>
                             {(user.role === 0 || user.role === 1) &&
-                              <li>
-                                <Link to="/admin">ADMİN PANEL</Link>
-                              </li>
+                              <li><Link to="/admin">ADMİN PANEL</Link></li>
                             }
-                            <li>
-                              <Link to="/register">ŞƏXSİ MƏLUMATLAR</Link>
-                            </li>
-                            <li>
-                              <Link to="/register">BAXILANLAR</Link>
-                            </li>
-                            <li>
-                              <Link to="/register">BƏYƏNİLƏNLƏR</Link>
-                            </li>
-                            <li>
-                              <a href="#" onClick={logoutUser}>
-                                ÇIXIŞ
-                              </a>
+                            <li><Link to="/user">ŞƏXSİ MƏLUMATLAR</Link></li>
+                            <li><Link to="#">BAXILANLAR</Link></li>
+                            <li><Link to="#">BƏYƏNİLƏNLƏR</Link></li>
+                            <li><Link to="#" onClick={logoutUser}>ÇIXIŞ</Link>
                             </li>
                           </Fragment>
                         ) : (
                           <Fragment>
-                            <li>
-                              <Link to="/register">QEYDİYYAT</Link>
-                            </li>
-                            <li>
-                              <Link to="/login">GİRİŞ</Link>
-                            </li>
+                            <li><Link to="/register">QEYDİYYAT</Link></li>
+                            <li><Link to="/login">GİRİŞ</Link></li>
                           </Fragment>
                         )}
                       </ul>
@@ -183,4 +87,4 @@ const Header = (props) => {
   );
 };
 
-export default withRouter(Header);
+export default Header;

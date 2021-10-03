@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { sweetSuccess } from "../helper/sweet";
-import { useDispatch } from "react-redux";
-import { login } from "../redux/actions/user";
+import { useSelector } from "react-redux";
 import Input from "../components/elements/Input";
 import { Link } from "react-router-dom";
 import axios from "../helper/axios";
-import { decoder, setAuthToken } from "../helper/functions";
+import { refreshToken } from "../helper/functions";
 import { error } from "../helper/notification";
 
 const inputs = [
@@ -24,8 +23,12 @@ const inputs = [
 
 const Login = () => {
   const [form, setForm] = useState({});
-  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const history = useHistory();
+
+  useEffect(() => {
+    user && history.replace('/');
+  }, [user, history]);
 
   const renderFormInputs = () => {
     return inputs.map((input, i) => (
@@ -50,10 +53,7 @@ const Login = () => {
       const res = await axios.post(`/user/login`, form);
       if (res.data.message) {
         const { token, message } = res.data;
-        localStorage.setItem("token", token);
-        setAuthToken(token);
-        const data = decoder(token);
-        dispatch(login(data));
+        refreshToken(token)
         history.replace("/");
         sweetSuccess(message);
       } else {
@@ -95,7 +95,7 @@ const Login = () => {
                         Hesabınız yoxdur?
                       </p>
                     </Link>
-                    <Link to="/forgot_password">
+                    <Link to="/forgot-password">
                       <p className="address-p">Şifrəni unutmusunuz?</p>
                     </Link>
                   </div>

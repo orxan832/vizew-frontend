@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "../helper/axios";
 import { error, info } from "../helper/notification";
 import { sweetInfo } from "../helper/sweet";
-import { useDispatch } from "react-redux";
 import SendMail from "../components/UI/SendMail";
 import Input from "../components/elements/Input";
 import { Link, useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const inputs = [
   {
@@ -30,12 +30,17 @@ const inputs = [
   },
 ];
 
-const Register = props => {
+const Register = () => {
   const [form, setForm] = useState({});
   const [modal, setModal] = useState(false);
   const [code, setCode] = useState('');
   const [userCode, setUserCode] = useState('');
+  const { user } = useSelector((state) => state.user);
   const history = useHistory();
+
+  useEffect(() => {
+    user && history.replace('/');
+  }, [user, history]);
 
   const renderFormInputs = () => {
     return inputs.map((input, i) => (
@@ -56,13 +61,14 @@ const Register = props => {
 
   const modalHandler = () => setModal(!modal);
 
-  const alertHandler = (e) => {
+  const alertHandler = e => {
     e.preventDefault();
     let access = true;
     inputs.map(input => {
       if (!form[input.name] || form[input.name === '']) {
         access = false;
       }
+      return true;
     });
     if (!access) {
       info('Formu tam doldurun.');
@@ -81,15 +87,9 @@ const Register = props => {
     try {
       const emailCode = Math.floor(1000 + Math.random() * 9000).toString();
       setCode(emailCode);
-      console.log(emailCode);
       modalHandler();
-
-      // const data = {
-      //   email: form.email,
-      //   code,
-      // };
-      // await axios.post(`/user/sendEmail`, data);
-
+      const data = { email: form.email, code: emailCode };
+      await axios.post(`/user/sendEmail`, data);
     } catch (err) {
       console.error(err);
     }

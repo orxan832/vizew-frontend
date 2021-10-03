@@ -6,26 +6,14 @@ import Select from "../elements/Select";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import DecoupledEditor from "@ckeditor/ckeditor5-build-decoupled-document";
 import { validation } from "../../helper/functions";
+import { useSelector } from "react-redux";
 
 const Article = (props) => {
   const [form, setForm] = useState(props.form);
   const [tagSelect, setTagSelect] = useState([]);
   const [tagOptions, setTagOptions] = useState([]);
 
-  const getData = () => {
-    const { tags } = props;
-    const tagSelectData = [];
-    const tagOptions = [];
-    tags.map((d) => tagSelectData.push({ label: d.tag, value: d.id }));
-    setTagSelect(tagSelectData);
-    if (form.control === 2 && form.tags) {
-      form.tags.split(",").map((tag) => {
-        const data = tags.find((d) => d.id === Number(tag));
-        tagOptions.push({ label: data.tag, value: data.id });
-      });
-      setTagOptions(tagOptions);
-    }
-  };
+  const userId = useSelector(state => state.user.user.id);
 
   const changeHandler = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -53,16 +41,16 @@ const Article = (props) => {
     tagOptions.map((option) => tagsArray.push(option.value));
     const tags = tagsArray.toString();
     form.tags = tags;
+    delete headers.full_name
     const access = validation(form, headers);
     if (access) {
       const tab = tabId.split("-")[2];
       sweetConfirm(async () => {
-        await axios.post(`/${tab}/CRUD`, { ...form, author_id: 1 });
+        await axios.post(`/${tab}/CRUD`, { ...form, author_id: userId });
         getData(tabId, modalHeader);
         modalHandler();
         notification.success(
-          `Məlumat müvəffəqiyyətlə ${
-            form.control === 1 ? "əlavə olundu" : "dəyişdirildi"
+          `Məlumat müvəffəqiyyətlə ${form.control === 1 ? "əlavə olundu" : "dəyişdirildi"
           }.`
         );
       });
@@ -72,8 +60,23 @@ const Article = (props) => {
   };
 
   useEffect(() => {
+    const getData = () => {
+      const { tags } = props;
+      const tagSelectData = [];
+      const tagOptions = [];
+      tags.map((d) => tagSelectData.push({ label: d.tag, value: d.id }));
+      setTagSelect(tagSelectData);
+      if (form.control === 2 && form.tags) {
+        form.tags.split(",").map((tag) => {
+          const data = tags.find((d) => d.id === Number(tag));
+          tagOptions.push({ label: data.tag, value: data.id });
+          return true;
+        });
+        setTagOptions(tagOptions);
+      }
+    };
     getData();
-  }, []);
+  }, [form.control, form.tags, props]);
 
   return (
     <form onSubmit={onSubmit}>
@@ -82,7 +85,8 @@ const Article = (props) => {
           type="text"
           className="form-control"
           name="title"
-          placeholder="Başlıq"
+          placeholder="Başlıq - 100 şrift"
+          maxLength={100}
           value={form.title || ""}
           onChange={changeHandler}
         />
@@ -92,7 +96,8 @@ const Article = (props) => {
           type="text"
           className="form-control"
           name="subject"
-          placeholder="Mövzu"
+          placeholder="Mövzu - 200 şrift"
+          maxLength={200}
           value={form.subject || ""}
           onChange={changeHandler}
         />

@@ -338,3 +338,8 @@
     display: none;
   }
 }
+
+.ck-content th, td, td {
+  color: white;
+  text-align: center;
+}

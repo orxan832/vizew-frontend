@@ -24,10 +24,10 @@ export const sweetInfo = message => {
     });
 }
 
-export const sweetConfirm = func => {
+export const sweetConfirm = (func, text = 'Dəyişikliklər yadda saxlandıqdan sonra bərpa olunmayacaq!') => {
     swal({
         title: "Əminsinizmi?",
-        text: 'Dəyişikliklər yadda saxlandıqdan sonra bərpa olunmayacaq!',
+        text,
         icon: "warning",
         buttons: true,
         dangerMode: true,

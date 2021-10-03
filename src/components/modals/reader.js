@@ -4,7 +4,6 @@ import { Modal } from "react-bootstrap";
 const Reader = (props) => {
   const { modal, modalHandler } = props;
   const { title, subject, article } = props.article;
-  console.log(props);
   return (
     <Modal
       size="xl"

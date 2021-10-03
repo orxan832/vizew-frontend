@@ -4,7 +4,7 @@ import { Modal } from 'react-bootstrap';
 const SendMail = props => {
     const { modal, modalHandler, userCode, changeCodeHandler, submitHandler } = props;
     return (
-        <Modal show={modal} onHide={modalHandler} centered>
+        <Modal show={modal} onHide={modalHandler} backdrop="static" centered>
             <Modal.Header closeButton className='bg-modal'>
                 <h6 className="font-weight-bold text-center">Emailinizə göndərilən təsdiq kodunu daxil edin</h6>
             </Modal.Header>
@@ -25,7 +25,7 @@ const SendMail = props => {
                         type="button"
                         onClick={submitHandler}
                         className="btn vizew-btn rounded btn-w-45">
-                        Save changes
+                        Təsdiq et
                     </button>
                 </div>
             </Modal.Body>

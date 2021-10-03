@@ -444,7 +444,7 @@ input:focus {
   margin-bottom: 0;
   font-weight: 500;
   color: #db4437;
-  text-transform: uppercase;
+  /* text-transform: uppercase; */
 }
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   .top-header-area .breaking-news-area .news-title p {
@@ -2548,6 +2548,12 @@ textarea.form-control {
 .vizew-datatable td, th {
   color: white;
   margin-top: 10px;
+}
+
+.vizew-login-area .arrow {
+  background-color: #DD4437;
+  /* border: 1px solid #DD4437; */
+  outline: none;
 }
 
 /*# sourceMappingURL=style.css.map */

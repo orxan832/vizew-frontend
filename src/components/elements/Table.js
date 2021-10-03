@@ -7,7 +7,7 @@ import { roles } from "../../helper/enum";
 import Reader from "../modals/reader";
 import { MDBDataTable } from 'mdbreact';
 
-const Table = (props) => {
+const Table = props => {
   const [modal, setModal] = useState(false);
   const [article, setArticle] = useState("");
 
@@ -25,7 +25,7 @@ const Table = (props) => {
           ? formatDateUntilSecond(data[header])
           : "Güncəllənməyib";
       case "image":
-        return <img src={data[header]} width="50" height="50" />;
+        return <img src={data[header]} alt="" width="50" height="50" />;
       case "article":
         return (
           <button
@@ -47,13 +47,12 @@ const Table = (props) => {
   };
 
   const renderTableData = () => {
-    const { headers, data, insertOrUpdateHandler, deleteItem } = props;
+    const { headers, data, insertOrUpdateHandler, deleteItem, tabId } = props;
     const columns = Object.keys(headers).map(key => {
       return {
         label: headers[key],
         field: key,
-        sort: 'asc',
-        // width: 
+        sort: 'asc'
       }
     });
     columns.unshift({
@@ -64,7 +63,7 @@ const Table = (props) => {
     columns.push({
       label: <button
         className="btn btn-sm btn-primary"
-        onClick={() => insertOrUpdateHandler()}
+        onClick={() => insertOrUpdateHandler(false, tabId)}
       >
         Yeni
       </button>,
@@ -75,14 +74,16 @@ const Table = (props) => {
       const row = {};
       Object.keys(headers).map(key => {
         row[key] = returnData(d, key);
+        return row[key]
       });
+      row.index = i + 1;
       row.buttons = <div className='d-flex justify-content-center'>
-        <button
+        {tabId !== 'v-pills-offer' && <button
           className="btn btn-sm btn-success mr-1"
           onClick={() => insertOrUpdateHandler(d)}
         >
           <GrUpdate />
-        </button>
+        </button>}
         <button
           className="btn btn-sm btn-danger ml-1"
           onClick={() => deleteItem(d)}
@@ -101,10 +102,12 @@ const Table = (props) => {
         <MDBDataTable
           dark striped
           noBottomColumns
+          responsive
           className='color-light'
           searchLabel='Axtarış'
           infoLabel={['Göstərilir', '-', 'Sətir sayı', '']}
           paginationLabel={['Əvvəlki', 'Sonrakı']}
+          noRecordsFoundLabel='Nəticə tapılmadı'
           data={renderTableData()}
           displayEntries={false} />
       </div>

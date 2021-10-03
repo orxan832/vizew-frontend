@@ -10,18 +10,22 @@ const Tag = (props) => {
   const [form, setForm] = useState({ ...props.form, password: "" });
   const [roleSelect, setRoleSelect] = useState([]);
   const [roleOption, setRoleOption] = useState("");
-  const getData = () => {
-    const roleSelectedData = [];
-    roles.map((role) =>
-      roleSelectedData.push({ label: role.name, value: role.code })
-    );
-    setRoleSelect(roleSelectedData);
-    if (form.control === 2) {
-      const { role } = props.form;
-      const selectedRole = roles.find((r) => r.code === role);
-      setRoleOption({ label: selectedRole.name, value: selectedRole.code });
-    }
-  };
+
+  useEffect(() => {
+    const getData = () => {
+      const roleSelectedData = [];
+      roles.map((role) =>
+        roleSelectedData.push({ label: role.name, value: role.code })
+      );
+      setRoleSelect(roleSelectedData);
+      if (form.control === 2) {
+        const { role } = props.form;
+        const selectedRole = roles.find((r) => r.code === role);
+        setRoleOption({ label: selectedRole.name, value: selectedRole.code });
+      }
+    };
+    getData();
+  }, [form.control, props.form]);
 
   const changeHandler = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -53,16 +57,11 @@ const Tag = (props) => {
       getData(tabId, modalHeader);
       modalHandler();
       notification.success(
-        `Məlumat müvəffəqiyyətlə ${
-          form.control === 1 ? "əlavə olundu" : "dəyişdirildi"
+        `Məlumat müvəffəqiyyətlə ${form.control === 1 ? "əlavə olundu" : "dəyişdirildi"
         }.`
       );
     });
   };
-
-  useEffect(() => {
-    getData();
-  }, []);
 
   return (
     <form onSubmit={onSubmit}>

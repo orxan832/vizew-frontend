@@ -10,21 +10,6 @@ const Ayah = (props) => {
   const [tagSelect, setTagSelect] = useState([]);
   const [tagOptions, setTagOptions] = useState([]);
 
-  const getData = () => {
-    const { tags } = props;
-    const tagSelectData = [];
-    const tagOptions = [];
-    tags.map((d) => tagSelectData.push({ label: d.tag, value: d.id }));
-    setTagSelect(tagSelectData);
-    if (form.control === 2 && form.tags) {
-      form.tags.split(",").map((tag) => {
-        const data = tags.find((d) => d.id === Number(tag));
-        tagOptions.push({ label: data.tag, value: data.id });
-      });
-      setTagOptions(tagOptions);
-    }
-  };
-
   const changeHandler = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
@@ -48,8 +33,7 @@ const Ayah = (props) => {
         getData(tabId, modalHeader);
         modalHandler();
         notification.success(
-          `Məlumat müvəffəqiyyətlə ${
-            form.control === 1 ? "əlavə olundu" : "dəyişdirildi"
+          `Məlumat müvəffəqiyyətlə ${form.control === 1 ? "əlavə olundu" : "dəyişdirildi"
           }.`
         );
       });
@@ -59,8 +43,23 @@ const Ayah = (props) => {
   };
 
   useEffect(() => {
+    const getData = () => {
+      const { tags } = props;
+      const tagSelectData = [];
+      const tagOptions = [];
+      tags.map((d) => tagSelectData.push({ label: d.tag, value: d.id }));
+      setTagSelect(tagSelectData);
+      if (form.control === 2 && form.tags) {
+        form.tags.split(",").map((tag) => {
+          const data = tags.find((d) => d.id === Number(tag));
+          tagOptions.push({ label: data.tag, value: data.id });
+          return true;
+        });
+        setTagOptions(tagOptions);
+      }
+    };
     getData();
-  }, []);
+  }, [form.control, form.tags, props]);
 
   return (
     <form onSubmit={onSubmit}>

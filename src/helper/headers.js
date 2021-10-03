@@ -17,9 +17,10 @@ export const hadith = {
 export const article = {
   title: "Başlıq",
   subject: "Məzmun",
-  article: "Məqalə",
+  full_name: 'Müəllif',
   image: "Şəkil",
   tags: "Teqlər",
+  article: "Məqalə",
   created_at: "Yazılma tarixi",
   updated_at: "Güncəllənmə tarixi",
 };
@@ -40,3 +41,8 @@ export const user = {
 };
 
 export const tag = { tag: "Teq" };
+
+export const offer = {
+  user_full_name: "İstifadəçi",
+  offer: "Şikayət və ya təklif"
+};
