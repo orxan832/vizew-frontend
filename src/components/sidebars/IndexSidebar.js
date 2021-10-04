@@ -13,8 +13,8 @@ const IndexSidebar = ({ data }) => {
                 {/* Single Blog Post */}
                 <div className="single-post-area">
                     <div className="post-content">
-                        <h5 className="font-weight-bold text-center">{data[0].ayahOrHadith}</h5>
-                        <div className='font-italic text-center '>({data[0].source})</div>
+                        <h5 className="font-weight-bold text-center">{data[0]?.ayahOrHadith}</h5>
+                        <div className='font-italic text-center '>({data[0]?.source})</div>
                     </div>
                 </div>
             </div>
@@ -28,8 +28,8 @@ const IndexSidebar = ({ data }) => {
                 {/* Single Blog Post */}
                 <div className="single-post-area">
                     <div className="post-content">
-                        <h5 className="font-weight-bold text-center">{data[1].ayahOrHadith}</h5>
-                        <div className='font-italic text-center '>({data[1].source})</div>
+                        <h5 className="font-weight-bold text-center">{data[1]?.ayahOrHadith}</h5>
+                        <div className='font-italic text-center '>({data[1]?.source})</div>
                     </div>
                 </div>
             </div>

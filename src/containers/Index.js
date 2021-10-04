@@ -1,8 +1,6 @@
 import React, { Fragment, useEffect, useState } from "react";
 import Base from "../components/articles/Base";
 import Trending from "../components/articles/Trending";
-// import Featured from "../components/articles/Featured";
-// import Random from "../components/articles/Random";
 import Latest from "../components/articles/Latest";
 import IndexSidebar from "../components/sidebars/IndexSidebar";
 import axios from "../helper/axios";
@@ -45,23 +43,18 @@ const Index = () => {
   return (
     <Fragment>
       {loading && <Loader />}
-      {base && <Base data={base} />}
-      {trending && <Trending data={trending} />}
+      {base.length ? <Base data={base} /> : <div />}
+      {trending.length ? <Trending data={trending} /> : <div />}
       <section className="vizew-post-area mb-50">
         <div className="container">
           <div className="row">
             <div className="col-12 col-md-7 col-lg-8">
               <div className="all-posts-area">
-                {/* <Featured /> */}
-                {/* <div className="row mt-5 pt-3">
-                  <Random />
-                  <Random />
-                </div> */}
-                {latest && <Latest data={latest} />}
+                {latest.length ? <Latest data={latest} /> : <div />}
               </div>
             </div>
             <div className="col-12 col-md-5 col-lg-4">
-              {oneAyahAndOneHadith && <IndexSidebar data={oneAyahAndOneHadith} />}
+              {oneAyahAndOneHadith.length ? <IndexSidebar data={oneAyahAndOneHadith} /> : <div />}
             </div>
           </div>
         </div>
