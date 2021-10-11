@@ -50,19 +50,26 @@ const Login = () => {
   const submitHandler = async (e) => {
     try {
       e.preventDefault();
-      const res = await axios.post(`/user/login`, form);
-      if (res.data.message) {
-        const { token, message } = res.data;
-        refreshToken(token)
-        history.replace("/");
-        sweetSuccess(message);
-      } else {
-        error(res.data);
+      console.log(form);
+      const isFormFilled = validation();
+      if (!isFormFilled) return error('Xahiş edirik məlumatları tam doldurun.');
+      else {
+        const res = await axios.post(`/user/login`, form);
+        if (res.data.message) {
+          const { token, message } = res.data;
+          refreshToken(token)
+          history.replace("/");
+          sweetSuccess(message);
+        } else {
+          error(res.data);
+        }
       }
     } catch (err) {
       error("Xəta baş verdi: " + err);
     }
   };
+
+  const validation = () => inputs.every(item => form[item.name] && form[item.name] !== '');
 
   return (
     <div className="vizew-login-area section-padding-80">

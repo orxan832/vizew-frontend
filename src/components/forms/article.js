@@ -12,6 +12,7 @@ const Article = (props) => {
   const [form, setForm] = useState(props.form);
   const [tagSelect, setTagSelect] = useState([]);
   const [tagOptions, setTagOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const userId = useSelector(state => state.user.user.id);
 
@@ -46,13 +47,12 @@ const Article = (props) => {
     if (access) {
       const tab = tabId.split("-")[2];
       sweetConfirm(async () => {
+        setLoading(true);
         await axios.post(`/${tab}/CRUD`, { ...form, author_id: userId });
         getData(tabId, modalHeader);
         modalHandler();
-        notification.success(
-          `Məlumat müvəffəqiyyətlə ${form.control === 1 ? "əlavə olundu" : "dəyişdirildi"
-          }.`
-        );
+        notification.success(`Məlumat müvəffəqiyyətlə ${form.control === 1 ? "əlavə olundu" : "dəyişdirildi"}.`);
+        setLoading(false);
       });
     } else {
       notification.error("Xanaları tam şəkildə doldurun!");
@@ -143,9 +143,7 @@ const Article = (props) => {
           editor={DecoupledEditor}
         />
       </div>
-      <button type="submit" className="btn btn-success float-right mt-3">
-        Yadda Saxla
-      </button>
+      <button type="submit" disabled={loading} className="btn btn-success float-right mt-3">{loading ? 'Gözləyin...' : 'Yadda Saxla'}</button>
     </form>
   );
 };

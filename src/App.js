@@ -3,11 +3,11 @@ import { Switch, Route, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import ScrollToTop from "react-scroll-up";
 import { BsChevronUp } from "react-icons/bs";
-import ReactNotification from "react-notifications-component";
 import { decoder, setAuthToken } from "./helper/functions";
 import Admin from "./containers/Admin";
 import Main from "./Main";
 import { login } from "./redux/actions/user";
+import { ToastContainer } from 'react-toastify';
 
 const App = () => {
 
@@ -41,7 +41,7 @@ const App = () => {
 
   return (
     <Fragment>
-      <ReactNotification />
+      <ToastContainer theme='dark' position='bottom-right' />
       <div className='position-relative' style={{ zIndex: '999' }}>
         <ScrollToTop showUnder={100}>
           <BsChevronUp

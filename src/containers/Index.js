@@ -54,7 +54,7 @@ const Index = () => {
               </div>
             </div>
             <div className="col-12 col-md-5 col-lg-4">
-              {oneAyahAndOneHadith.length ? <IndexSidebar data={oneAyahAndOneHadith} /> : <div />}
+              {oneAyahAndOneHadith.length === 2 ? <IndexSidebar data={oneAyahAndOneHadith} /> : <div />}
             </div>
           </div>
         </div>

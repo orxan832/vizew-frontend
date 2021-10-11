@@ -20,12 +20,14 @@ const Admin = () => {
   const [form, setForm] = useState({ control: 1 });
   const [modal, setModal] = useState(false);
   const [tags, setTags] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { id, role } = useSelector(state => state.user.user);
   const dispatch = useDispatch();
 
   const getData = useCallback(async (tabId = "v-pills-ayah", modalHeader = "Ayətlər") => {
     if (role !== undefined) {
+      setLoading(true);
       const tab = tabId.split("-")[2];
       let get_result;
       if (tab === 'article' && role === 1) get_result = axios.get(`/${tab}/data/${id}`);
@@ -38,6 +40,7 @@ const Admin = () => {
       setHeaders(columns);
       setData(result.data);
       setTags(tags.data);
+      setLoading(false);
     }
   }, [id, role]);
 
@@ -132,16 +135,18 @@ const Admin = () => {
               </Link>
             </div>
           </div>
-          <div className="tab-content text-center mt-5">
-            <div
-              className="tab-pane fade show active"
-              id={tabId}
-              role="tabpanel"
-            >
-              <Table {...tableProps} />
-              <Modal {...modalProps} />
+          {loading ? <div className='d-flex flex-column align-items-center justify-content-center h1 text-white' style={{ height: '100vh' }}>Məlumatlar hazırlanır...</div> :
+            <div className="tab-content text-center mt-5">
+              <div
+                className="tab-pane fade show active"
+                id={tabId}
+                role="tabpanel"
+              >
+                <Table {...tableProps} />
+                <Modal {...modalProps} />
+              </div>
             </div>
-          </div>
+          }
         </div>
       </div>
     </div>

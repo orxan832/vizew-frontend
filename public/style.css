@@ -785,6 +785,13 @@ input:focus {
   background-color: #222627;
   box-shadow: 0 0 20px 0 rgba(255, 255, 255, 0.2);
 }
+
+@media only screen and (min-width: 100px) and (max-width: 977px) {
+  .classy-menu {
+    overflow: hidden !important;
+  }
+}
+
 .breakpoint-on .classynav ul li .megamenu .single-mega.cn-col-4 {
   padding: 0;
   border-bottom: 1px solid #393c3d;

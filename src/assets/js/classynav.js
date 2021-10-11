@@ -18,6 +18,7 @@ $(function () {
         var navToggler = $('.navbarToggler');
         var classyMenu = $('.classy-menu');
         var var_window = $(window);
+        var closeMenu = $('.close-menu');
 
         // default options
         var defaultOpt = $.extend({
@@ -57,6 +58,12 @@ $(function () {
 
             // close icon
             closeIcon.on('click', function () {
+                classyMenu.removeClass('menu-on');
+                navToggler.removeClass('active');
+            });
+
+            // close icon
+            closeMenu.on('click', function () {
                 classyMenu.removeClass('menu-on');
                 navToggler.removeClass('active');
             });

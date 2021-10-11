@@ -71,11 +71,11 @@ const AdminSidebar = (props) => {
   })
 
   return (
-    <div className="col-sm-2 table-dark border-right border-secondary">
+    <div className="col-12 col-sm-2 table-dark border-right border-secondary">
       <h2 className="text-center font-weight-bold font-italic text-light mt-5">
-        Vizew Admin Panel
+        Admin Panel
       </h2>
-      <div className="nav flex-column nav-pills mt-5 pt-5">
+      <div className="nav d-flex flex-column nav-pills mt-5 pt-5">
         {renderTabs()}
       </div>
     </div>

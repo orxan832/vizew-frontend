@@ -10,6 +10,7 @@ const Tag = (props) => {
   const [form, setForm] = useState({ ...props.form, password: "" });
   const [roleSelect, setRoleSelect] = useState([]);
   const [roleOption, setRoleOption] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const getData = () => {
@@ -53,13 +54,12 @@ const Tag = (props) => {
     const { tabId, modalHeader, getData, modalHandler } = props;
     const tab = tabId.split("-")[2];
     sweetConfirm(async () => {
+      setLoading(true);
       await axios.post(`/${tab}/CRUD`, { ...form });
       getData(tabId, modalHeader);
       modalHandler();
-      notification.success(
-        `Məlumat müvəffəqiyyətlə ${form.control === 1 ? "əlavə olundu" : "dəyişdirildi"
-        }.`
-      );
+      notification.success(`Məlumat müvəffəqiyyətlə ${form.control === 1 ? "əlavə olundu" : "dəyişdirildi"}.`);
+      setLoading(false);
     });
   };
 
@@ -105,9 +105,7 @@ const Tag = (props) => {
           className="text-dark"
         />
       </div>
-      <button type="submit" className="btn btn-success float-right">
-        Yadda Saxla
-      </button>
+      <button type="submit" disabled={loading} className="btn btn-success float-right mt-3">{loading ? 'Gözləyin...' : 'Yadda Saxla'}</button>
     </form>
   );
 };

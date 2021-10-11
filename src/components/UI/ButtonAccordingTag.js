@@ -13,7 +13,7 @@ const ButtonAccordingTag = ({ tags }) => {
   return tagIDs.map(id => {
     const backgroundColor = getRandomColor();
     return (
-      <Link to="#" className="post-cata cata-sm mr-1" style={{ backgroundColor }} key={id}>{allTags.find(tag => tag.id === Number(id)).tag}</Link>
+      <Link to="#" className="post-cata cata-sm mr-1" style={{ backgroundColor }} key={id}>{allTags?.find(tag => tag.id === Number(id)).tag}</Link>
     )
   });
 }

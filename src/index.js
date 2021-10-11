@@ -10,10 +10,10 @@ import store from './redux/store';
 //css files
 import 'owl.carousel/dist/assets/owl.carousel.css';
 import 'owl.carousel/dist/assets/owl.theme.default.css';
-import 'react-notifications-component/dist/theme.css';
 import './assets/css/project.css';
 import './assets/css/ckeditor.css';
 import './assets/css/dataTables.bootstrap4.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 //js files
 import './assets/js/classynav';

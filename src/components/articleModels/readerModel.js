@@ -4,6 +4,7 @@ import ButtonAccordingTag from '../UI/ButtonAccordingTag';
 
 const ReaderModel = props => {
     const { article } = props;
+    console.log(article);
     return (
         <div className="single-feature-post video-post bg-img pager-article" style={{ backgroundImage: `url(${article.image})` }}>
             <div className="post-content">

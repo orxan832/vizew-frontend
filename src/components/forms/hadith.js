@@ -9,6 +9,7 @@ const Hadith = (props) => {
   const [form, setForm] = useState(props.form);
   const [tagSelect, setTagSelect] = useState([]);
   const [tagOptions, setTagOptions] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const changeHandler = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -29,13 +30,12 @@ const Hadith = (props) => {
     if (access) {
       const tab = tabId.split("-")[2];
       sweetConfirm(async () => {
+        setLoading(true);
         await axios.post(`/${tab}/CRUD`, { ...form });
         getData(tabId, modalHeader);
         modalHandler();
-        notification.success(
-          `Məlumat müvəffəqiyyətlə ${form.control === 1 ? "əlavə olundu" : "dəyişdirildi"
-          }.`
-        );
+        notification.success(`Məlumat müvəffəqiyyətlə ${form.control === 1 ? "əlavə olundu" : "dəyişdirildi"}.`);
+        setLoading(false);
       });
     } else {
       notification.error("Xanaları tam şəkildə doldurun!");
@@ -89,9 +89,7 @@ const Hadith = (props) => {
         multi={true}
         value={tagOptions}
       />
-      <button type="submit" className="btn btn-success float-right mt-3">
-        Yadda Saxla
-      </button>
+      <button type="submit" disabled={loading} className="btn btn-success float-right mt-3">{loading ? 'Gözləyin...' : 'Yadda Saxla'}</button>
     </form>
   );
 };

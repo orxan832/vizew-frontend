@@ -63,24 +63,12 @@ const Register = () => {
 
   const alertHandler = e => {
     e.preventDefault();
-    let access = true;
-    inputs.map(input => {
-      if (!form[input.name] || form[input.name === '']) {
-        access = false;
-      }
-      return true;
-    });
-    if (!access) {
-      info('Formu tam doldurun.');
-      return false;
-    }
-    else if (form.password !== form.passwordRetry) {
-      info('Şifrə ilə şifrə təkrarı eyni deyil.');
-      return false;
-    }
-    else {
-      sendEmailCode();
-    }
+    console.log(form);
+    const isFormFilled = validation();
+    console.log(isFormFilled);
+    // if (!isFormFilled) return error('Xahiş edirik məlumatları tam doldurun.');
+    // else if (form.password !== form.passwordRetry) return info('Şifrə ilə şifrə təkrarı eyni deyil.');
+    // else sendEmailCode();
   };
 
   const sendEmailCode = async () => {
@@ -105,6 +93,8 @@ const Register = () => {
       error("Daxil etdiyiniz təsdiq kodu yalnışdır.");
     }
   };
+
+  const validation = () => inputs.every(item => form[item.name] && form[item.name] !== '');
 
   return (
     <div

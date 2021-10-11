@@ -4,7 +4,7 @@ const IndexSidebar = ({ data }) => {
     return (
         <div className="sidebar-sticky">
             {/* ***** Single Widget ***** */}
-            <div className="single-widget">
+            <div className="single-widget mt-5">
                 {/* Section Heading */}
                 <div className="section-heading style-2 mb-30">
                     <h4>Bir ayə</h4>

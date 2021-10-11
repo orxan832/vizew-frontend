@@ -26,11 +26,13 @@ const Reader = () => {
         const getData = async () => {
             try {
                 if (tags) {
-                    const getArticles = axios.post(`/article/checkViewAndGetArticle/`, { articleId, userId });
-                    const isLikedArticle = axios.get(`/article/isLikedArticle/${articleId}/${userId}`);
-                    const [getArticlesPromise, isLikedArticlePromise] = await Promise.all([getArticles, isLikedArticle]);
-                    setArticles(getArticlesPromise.data)
-                    setIsLiked(isLikedArticlePromise.data ? true : false);
+                    const getArticles = await axios.post(`/article/checkViewAndGetArticle/`, { articleId, userId });
+                    console.log(getArticles.data);
+                    if (userId) {
+                        const isLikedArticle = await axios.get(`/article/isLikedArticle/${articleId}/${userId}`);
+                        setIsLiked(isLikedArticle.data ? true : false);
+                    }
+                    setArticles(getArticles.data)
                     setLoading(false);
                 }
             } catch (err) {
@@ -73,21 +75,22 @@ const Reader = () => {
     }
 
     return (
-        loading ? <Loader /> : <Fragment>
+        loading ? <Loader /> : articles.length && <Fragment>
             <Navigation title={articles[0].title} />
-            <div className="vizew-pager-area">
-                <div className="vizew-pager-prev">
-                    <p>PREVIOUS ARTICLE</p>
-                    <ReaderModel tags={tags} userId={userId} article={articles[1]} />
+            {articles.length > 2 &&
+                <div className="vizew-pager-area">
+                    <div className="vizew-pager-prev">
+                        <p>PREVIOUS ARTICLE</p>
+                        <ReaderModel tags={tags} userId={userId} article={articles[1]} />
+                    </div>
+                    <div className="vizew-pager-next">
+                        <p>NEXT ARTICLE</p>
+                        <ReaderModel tags={tags} userId={userId} article={articles[2]} />
+                    </div>
                 </div>
-                <div className="vizew-pager-next">
-                    <p>NEXT ARTICLE</p>
-                    <ReaderModel tags={tags} userId={userId} article={articles[2]} />
-                </div>
-            </div>
+            }
             <ArticleDetails article={articles[0]} tags={tags} isLiked={isLiked} changeLike={changeLike} />
         </Fragment>
-
     )
 }
 
