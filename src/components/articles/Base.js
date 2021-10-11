@@ -23,11 +23,11 @@ const Base = props => {
                     {/* Post Content */}
                     <div className="post-content">
                       <ButtonAccordingTag tags={d.tags} />
-                      <Link to={`/single-article/${d.id}/${d.author_id}`} className="post-title">{d.subject}</Link>
+                      <Link to={`/single-article/${d.id}`} className="post-title">{d.subject}</Link>
                       <div className="post-meta d-flex">
-                        <Link to={`/single-article/${d.id}/${d.author_id}`}><i className="fa fa-comments-o" aria-hidden="true" />{" "}{d.comments}</Link>
-                        <Link to={`/single-article/${d.id}/${d.author_id}`}><i className="fa fa-eye" aria-hidden="true" />{" "}{d.views}</Link>
-                        <Link to={`/single-article/${d.id}/${d.author_id}`}><i className="fa fa-thumbs-o-up" aria-hidden="true" />{" "}{d.likes}</Link>
+                        <Link to={`/single-article/${d.id}`}><i className="fa fa-comments-o" aria-hidden="true" />{" "}{d.comments}</Link>
+                        <Link to={`/single-article/${d.id}`}><i className="fa fa-eye" aria-hidden="true" />{" "}{d.views}</Link>
+                        <Link to={`/single-article/${d.id}`}><i className="fa fa-thumbs-o-up" aria-hidden="true" />{" "}{d.likes}</Link>
                       </div>
                     </div>
                   </div>

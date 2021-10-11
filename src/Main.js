@@ -38,7 +38,7 @@ const Main = () => {
         <Route path="/register" component={Register} />
         <Route path="/forgot-password" component={ForgotPassword} />
         <Route path="/user" component={User} />
-        <Route path="/single-article/:articleId/:authorId/" component={ArticleReader} />
+        <Route path="/single-article/:articleId" component={ArticleReader} />
         <Route path="/search/:searchString?" component={Search} />
         <Route path="/religion" component={About} />
         <Route path="/ayah" component={About} />

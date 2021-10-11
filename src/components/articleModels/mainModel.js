@@ -11,11 +11,11 @@ const MainModel = ({ id, author_id, image, subject, comments, views, likes, tags
                 </div>
                 <div className="post-content">
                     {<ButtonAccordingTag tags={tags} />}
-                    <Link to={`/single-article/${id}/${author_id}`} className="post-title">{subject}</Link>
+                    <Link to={`/single-article/${id}`} className="post-title">{subject}</Link>
                     <div className="post-meta d-flex">
-                        <Link to={`/single-article/${id}/${author_id}`}><i className="fa fa-comments-o" aria-hidden="true" /> {comments}</Link>
-                        <Link to={`/single-article/${id}/${author_id}`}><i className="fa fa-eye" aria-hidden="true" /> {views}</Link>
-                        <Link to={`/single-article/${id}/${author_id}`}><i className="fa fa-thumbs-o-up" aria-hidden="true" /> {likes}</Link>
+                        <Link to={`/single-article/${id}`}><i className="fa fa-comments-o" aria-hidden="true" /> {comments}</Link>
+                        <Link to={`/single-article/${id}`}><i className="fa fa-eye" aria-hidden="true" /> {views}</Link>
+                        <Link to={`/single-article/${id}`}><i className="fa fa-thumbs-o-up" aria-hidden="true" /> {likes}</Link>
                     </div>
                 </div>
             </div>

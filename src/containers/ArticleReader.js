@@ -19,7 +19,7 @@ const Reader = () => {
     const [loading, setLoading] = useState(true);
 
     const params = useParams();
-    const { articleId, authorId } = params;
+    const { articleId } = params;
     const { commentSituation, tags, userId } = useSelector(commentSituationSelector);
 
     useEffect(() => {
@@ -27,7 +27,6 @@ const Reader = () => {
             try {
                 if (tags) {
                     const getArticles = await axios.post(`/article/checkViewAndGetArticle/`, { articleId, userId });
-                    console.log(getArticles.data);
                     if (userId) {
                         const isLikedArticle = await axios.get(`/article/isLikedArticle/${articleId}/${userId}`);
                         setIsLiked(isLikedArticle.data ? true : false);
@@ -41,7 +40,7 @@ const Reader = () => {
         }
 
         getData();
-    }, [isLiked, tags, articleId, authorId, userId]);
+    }, [tags]);
 
     useEffect(() => {
         if (commentSituation) {
@@ -68,7 +67,12 @@ const Reader = () => {
             }
             await setIsLiked(like => !like);
             const res = await axios.post('/article/changeLike', { articleId, userId, isLiked });
-            !res.data && await setIsLiked(like => !like);
+            if (!res.data) return await setIsLiked(like => !like);
+            else {
+                const newArticles = [...articles];
+                newArticles[0].likes = isLiked ? newArticles[0].likes - 1 : newArticles[0].likes + 1;
+                setArticles(newArticles);
+            }
         } catch (err) {
             console.error(err);
         }

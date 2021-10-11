@@ -50,7 +50,6 @@ const Login = () => {
   const submitHandler = async (e) => {
     try {
       e.preventDefault();
-      console.log(form);
       const isFormFilled = validation();
       if (!isFormFilled) return error('Xahiş edirik məlumatları tam doldurun.');
       else {
